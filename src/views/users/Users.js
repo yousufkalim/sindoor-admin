@@ -1,0 +1,215 @@
+/*!
+
+=========================================================
+* Argon Dashboard React - v1.2.1
+=========================================================
+
+* Product Page: https://www.creative-tim.com/product/argon-dashboard-react
+* Copyright 2021 Creative Tim (https://www.creative-tim.com)
+* Licensed under MIT (https://github.com/creativetimofficial/argon-dashboard-react/blob/master/LICENSE.md)
+
+* Coded by Creative Tim
+
+=========================================================
+
+* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+*/
+// reactstrap components
+import { useState, useEffect, useRef } from "react";
+import { useHistory } from "react-router-dom";
+import api from "api";
+import ReactPaginate from "react-paginate";
+import { Store, UpdateStore } from "StoreContext";
+import {
+  Badge,
+  Card,
+  CardHeader,
+  Button,
+  DropdownMenu,
+  DropdownItem,
+  UncontrolledDropdown,
+  DropdownToggle,
+  Media,
+  img,
+  Table,
+  Container,
+  Row,
+} from "reactstrap";
+
+// core components
+
+import Header from "components/Headers/Header.js";
+import { toast } from "react-toastify";
+
+const Users = () => {
+  const pagination = useRef();
+  const [users, setUsers] = useState([]);
+  const [page, setPage] = useState(0);
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    getUsers();
+  }, []);
+
+  useEffect(() => {
+    getUsers();
+  }, [page]);
+
+  const getUsers = async () => {
+    const data = await api("post", "/users/getByAdmin", {
+      pageNumber: page,
+      pageSize: 10,
+    });
+    setUsers(data.users);
+    setCount(data.totalResults);
+  };
+
+  const handleDelete = (id) => {
+    api("delete", `/users/${id}`).then(() => {
+      toast.success("User deleted successfully");
+      getUsers();
+    });
+  };
+
+  const setPageis = ({ selected }) => {
+    setPage(selected);
+  };
+
+  return (
+    <>
+      {console.log(count, "c")}
+      {console.log(page, "p")}
+      <Header />
+      {/* Page content */}
+      <Container className="mt--7" fluid>
+        {/* Table */}
+        <Row>
+          <div className="col">
+            <Card className="shadow">
+              <CardHeader className="border-0">
+                <div className="d-flex justify-content-between ">
+                  <h3 className="mb-0">Users</h3>
+                </div>
+              </CardHeader>
+              <Table className="align-items-center table-flush" responsive>
+                <thead className="thead-light">
+                  <tr>
+                    <th scope="col">Name</th>
+                    <th scope="col">Email</th>
+                    <th scope="col">Contact no</th>
+                    <th scope="col">verified</th>
+                    <th scope="col">Photo</th>
+                    <th scope="col">Created At</th>
+                    <th scope="col" />
+                  </tr>
+                </thead>
+                <tbody>
+                  {users?.map((item) => {
+                    return (
+                      <tr>
+                        <th scope="row">
+                          <Media className="align-items-center">
+                            <Media>
+                              <span className="mb-0 text-sm">
+                                {item?.first_name[0].toUpperCase() +
+                                  item?.first_name.substring(1) +
+                                  " " +
+                                  item?.last_name[0].toUpperCase() +
+                                  item?.last_name.substring(1)}
+                              </span>
+                            </Media>
+                          </Media>
+                        </th>
+                        <td title={item.email}>
+                          {item.email?.length > 30
+                            ? item.email?.substring(0, 30) + "..."
+                            : item.email}
+                        </td>
+
+                        <td>{item.phone}</td>
+                        <td>
+                          {item.verified ? (
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-success" />
+                              Yes
+                            </Badge>
+                          ) : (
+                            <Badge color="" className="badge-dot mr-4">
+                              <i className="bg-warning" />
+                              No
+                            </Badge>
+                          )}
+                        </td>
+                        <td className="text-right">
+                          <img
+                            src={
+                              process.env.REACT_APP_SERVER_MEDIA_URL +
+                              item.photo
+                            }
+                            alt="Not Found"
+                            style={{
+                              height: "70px",
+                              width: "70px",
+                              float: "left",
+                            }}
+                          />
+                        </td>
+                        <td>{new Date(item.createdAt).toDateString()}</td>
+                        <td className="text-right">
+                          <UncontrolledDropdown>
+                            <DropdownToggle
+                              className="btn-icon-only text-light"
+                              href="#pablo"
+                              role="button"
+                              size="sm"
+                              color=""
+                              onClick={(e) => e.preventDefault()}
+                            >
+                              <i className="fas fa-ellipsis-v" />
+                            </DropdownToggle>
+                            <DropdownMenu className="dropdown-menu-arrow" right>
+                              <DropdownItem
+                                href="#pablo"
+                                className="text-danger"
+                                onClick={() => handleDelete(item._id)}
+                              >
+                                Delete
+                              </DropdownItem>
+                            </DropdownMenu>
+                          </UncontrolledDropdown>
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </Table>
+            </Card>
+          </div>
+        </Row>
+        <div style={{ width: "50%", margin: "auto" }}>
+          <ReactPaginate
+            ref={pagination}
+            marginPagesDisplayed={1}
+            pageCount={Math.ceil(count / 10)}
+            onPageChange={setPageis}
+            containerClassName="pagination"
+            activeClassName="active"
+            pageLinkClassName="page-link"
+            breakLinkClassName="page-link"
+            nextLinkClassName="page-link"
+            previousLinkClassName="page-link"
+            pageClassName="page-item"
+            breakClassName="page-item"
+            nextClassName="page-item"
+            previousClassName="page-item"
+            previousLabel={<>&laquo;</>}
+            nextLabel={<>&raquo;</>}
+            style={{ justifyContent: "center" }}
+          />
+        </div>
+      </Container>
+    </>
+  );
+};
+
+export default Users;
