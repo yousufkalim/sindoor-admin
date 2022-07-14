@@ -16,11 +16,11 @@
 
 */
 // reactstrap components
-import { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import api from "api";
-import ReactPaginate from "react-paginate";
-import { Store, UpdateStore } from "StoreContext";
+import { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import api from 'api';
+import ReactPaginate from 'react-paginate';
+import { Store, UpdateStore } from 'StoreContext';
 import {
   Badge,
   Card,
@@ -35,12 +35,12 @@ import {
   Table,
   Container,
   Row,
-} from "reactstrap";
+} from 'reactstrap';
 
 // core components
 
-import Header from "components/Headers/Header.js";
-import { toast } from "react-toastify";
+import Header from 'components/Headers/Header.js';
+import { toast } from 'react-toastify';
 
 const Users = () => {
   const pagination = useRef();
@@ -56,7 +56,7 @@ const Users = () => {
   }, [page]);
 
   const getUsers = async () => {
-    const data = await api("post", "/users/getByAdmin", {
+    const data = await api('get', '/users/getByAdmin', {
       pageNumber: page,
       pageSize: 10,
     });
@@ -65,8 +65,8 @@ const Users = () => {
   };
 
   const handleDelete = (id) => {
-    api("delete", `/users/${id}`).then(() => {
-      toast.success("User deleted successfully");
+    api('delete', `/users/${id}`).then(() => {
+      toast.success('User deleted successfully');
       getUsers();
     });
   };
@@ -77,8 +77,6 @@ const Users = () => {
 
   return (
     <>
-      {console.log(count, "c")}
-      {console.log(page, "p")}
       <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
@@ -113,18 +111,14 @@ const Users = () => {
                               <span className="mb-0 text-sm">
                                 {item?.first_name[0].toUpperCase() +
                                   item?.first_name.substring(1) +
-                                  " " +
+                                  ' ' +
                                   item?.last_name[0].toUpperCase() +
                                   item?.last_name.substring(1)}
                               </span>
                             </Media>
                           </Media>
                         </th>
-                        <td title={item.email}>
-                          {item.email?.length > 30
-                            ? item.email?.substring(0, 30) + "..."
-                            : item.email}
-                        </td>
+                        <td title={item.email}>{item.email?.length > 30 ? item.email?.substring(0, 30) + '...' : item.email}</td>
 
                         <td>{item.phone}</td>
                         <td>
@@ -142,15 +136,12 @@ const Users = () => {
                         </td>
                         <td className="text-right">
                           <img
-                            src={
-                              process.env.REACT_APP_SERVER_MEDIA_URL +
-                              item.photo
-                            }
+                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.photo}
                             alt="Not Found"
                             style={{
-                              height: "70px",
-                              width: "70px",
-                              float: "left",
+                              height: '70px',
+                              width: '70px',
+                              float: 'left',
                             }}
                           />
                         </td>
@@ -168,11 +159,7 @@ const Users = () => {
                               <i className="fas fa-ellipsis-v" />
                             </DropdownToggle>
                             <DropdownMenu className="dropdown-menu-arrow" right>
-                              <DropdownItem
-                                href="#pablo"
-                                className="text-danger"
-                                onClick={() => handleDelete(item._id)}
-                              >
+                              <DropdownItem href="#pablo" className="text-danger" onClick={() => handleDelete(item._id)}>
                                 Delete
                               </DropdownItem>
                             </DropdownMenu>
@@ -186,7 +173,7 @@ const Users = () => {
             </Card>
           </div>
         </Row>
-        <div style={{ width: "50%", margin: "auto" }}>
+        <div style={{ width: '20% ', margin: 'auto' }}>
           <ReactPaginate
             ref={pagination}
             marginPagesDisplayed={1}
@@ -204,7 +191,7 @@ const Users = () => {
             previousClassName="page-item"
             previousLabel={<>&laquo;</>}
             nextLabel={<>&raquo;</>}
-            style={{ justifyContent: "center" }}
+            style={{ justifyContent: 'center' }}
           />
         </div>
       </Container>

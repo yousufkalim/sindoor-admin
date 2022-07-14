@@ -16,10 +16,10 @@
 
 */
 // reactstrap components
-import { useState, useEffect, useRef } from "react";
-import { useHistory } from "react-router-dom";
-import api from "api";
-import ReactPaginate from "react-paginate";
+import { useState, useEffect, useRef } from 'react';
+import { useHistory } from 'react-router-dom';
+import api from 'api';
+import ReactPaginate from 'react-paginate';
 import {
   Badge,
   Card,
@@ -34,12 +34,12 @@ import {
   Table,
   Container,
   Row,
-} from "reactstrap";
+} from 'reactstrap';
 
 // core components
 
-import Header from "components/Headers/Header.js";
-import { toast } from "react-toastify";
+import Header from 'components/Headers/Header.js';
+import { toast } from 'react-toastify';
 
 const ServiceProviders = () => {
   const pagination = useRef();
@@ -53,8 +53,7 @@ const ServiceProviders = () => {
     getUsers();
   }, [page]);
   const getUsers = async () => {
-    console.log("u");
-    const data = await api("post", "/serviceProviders/getByAdmin", {
+    const data = await api('get', '/serviceProviders/getByAdmin', {
       pageNumber: page,
       pageSize: 10,
     });
@@ -63,8 +62,8 @@ const ServiceProviders = () => {
   };
 
   const handleDelete = (id) => {
-    api("delete", `/serviceProviders/${id}`).then(() => {
-      toast.success("serviceProvider deleted successfully");
+    api('delete', `/serviceProviders/${id}`).then(() => {
+      toast.success('serviceProvider deleted successfully');
       getUsers();
     });
   };
@@ -75,8 +74,8 @@ const ServiceProviders = () => {
 
   return (
     <>
-      {console.log(count, "c")}
-      {console.log(page, "p")}
+      {console.log(count, 'c')}
+      {console.log(page, 'p')}
       <Header />
       {/* Page content */}
       <Container className="mt--7" fluid>
@@ -86,7 +85,7 @@ const ServiceProviders = () => {
             <Card className="shadow">
               <CardHeader className="border-0">
                 <div className="d-flex justify-content-between ">
-                  <h3 className="mb-0">Users</h3>
+                  <h3 className="mb-0">Service Providers</h3>
                 </div>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
@@ -109,17 +108,12 @@ const ServiceProviders = () => {
                           <Media className="align-items-center">
                             <Media>
                               <span className="mb-0 text-sm">
-                                {item?.company_name[0].toUpperCase() +
-                                  item?.company_name.substring(1)}
+                                {item?.company_name[0].toUpperCase() + item?.company_name.substring(1)}
                               </span>
                             </Media>
                           </Media>
                         </th>
-                        <td title={item.email}>
-                          {item.email?.length > 30
-                            ? item.email?.substring(0, 30) + "..."
-                            : item.email}
-                        </td>
+                        <td title={item.email}>{item.email?.length > 30 ? item.email?.substring(0, 30) + '...' : item.email}</td>
 
                         <td>{item.phone}</td>
                         <td>
@@ -137,15 +131,12 @@ const ServiceProviders = () => {
                         </td>
                         <td className="text-right">
                           <img
-                            src={
-                              process.env.REACT_APP_SERVER_MEDIA_URL +
-                              item.photo
-                            }
+                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.photo}
                             alt="Not Found"
                             style={{
-                              height: "70px",
-                              width: "70px",
-                              float: "left",
+                              height: '70px',
+                              width: '70px',
+                              float: 'left',
                             }}
                           />
                         </td>
@@ -163,11 +154,7 @@ const ServiceProviders = () => {
                               <i className="fas fa-ellipsis-v" />
                             </DropdownToggle>
                             <DropdownMenu className="dropdown-menu-arrow" right>
-                              <DropdownItem
-                                href="#pablo"
-                                className="text-danger"
-                                onClick={() => handleDelete(item._id)}
-                              >
+                              <DropdownItem href="#pablo" className="text-danger" onClick={() => handleDelete(item._id)}>
                                 Delete
                               </DropdownItem>
                             </DropdownMenu>
@@ -181,7 +168,7 @@ const ServiceProviders = () => {
             </Card>
           </div>
         </Row>
-        <div style={{ width: "50%", margin: "auto" }}>
+        <div style={{ width: '20% ', margin: 'auto' }}>
           <ReactPaginate
             ref={pagination}
             marginPagesDisplayed={1}
@@ -199,7 +186,7 @@ const ServiceProviders = () => {
             previousClassName="page-item"
             previousLabel={<>&laquo;</>}
             nextLabel={<>&raquo;</>}
-            style={{ justifyContent: "center" }}
+            style={{ justifyContent: 'center' }}
           />
         </div>
       </Container>

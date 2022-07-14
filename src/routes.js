@@ -15,48 +15,57 @@
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 
 */
-import Index from "views/Index.js";
-import Users from "views/users/Users";
-import ServiceProviders from "views/serviceprovider.js/ServiceProviders";
-import Register from "views/Register.js";
-import Login from "views/Login.js";
+import Index from 'views/Index.js';
+import Users from 'views/users/Users';
+import ServiceProviders from 'views/serviceprovider.js/ServiceProviders';
+import eventPictures from 'views/EventPictures/Pictures';
+import Register from 'views/Register.js';
+import Login from 'views/Login.js';
 
 var routes = [
   {
-    path: "/index",
-    name: "Dashboard",
-    icon: "ni ni-tv-2 text-red",
+    path: '/index',
+    name: 'Dashboard',
+    icon: 'ni ni-tv-2 text-red',
     component: Index,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/users",
-    name: "All Users",
-    icon: "ni ni-single-02 text-primary",
+    path: '/users',
+    name: 'All Users',
+    icon: 'ni ni-single-02 text-primary',
     component: Users,
-    layout: "/admin",
+    layout: '/admin',
   },
   {
-    path: "/serviceprovider",
-    name: "All Service providers",
-    icon: "ni ni-single-02 text-primary",
+    path: '/serviceprovider',
+    name: 'All Service providers',
+    icon: 'ni ni-ruler-pencil text-info',
     component: ServiceProviders,
-    layout: "/admin",
+    layout: '/admin',
   },
 
   {
-    path: "/register",
-    name: "Register",
-    icon: "ni ni-key-25 text-info",
+    path: '/Apppictures',
+    name: 'Event Bg-Pictures',
+    icon: 'ni ni-support-16 text-purple"',
+    component: eventPictures,
+    layout: '/admin',
+  },
+
+  {
+    path: '/register',
+    name: 'Register',
+    icon: 'ni ni-key-25 text-info',
     component: Register,
-    layout: "/auth",
+    layout: '/auth',
   },
   {
-    path: "/login",
-    name: "Login",
-    icon: "ni ni-circle-08 text-pink",
+    path: '/login',
+    name: 'Login',
+    icon: 'ni ni-circle-08 text-pink',
     component: Login,
-    layout: "/auth",
+    layout: '/auth',
   },
 ];
 export default routes;
