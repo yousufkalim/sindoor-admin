@@ -12,12 +12,21 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
     active: false,
   });
 
-  const [image, setImage] = useState(null);
+  const [eventimage, setEventImage] = useState('');
+  const [codeimage, setCodeImage] = useState('');
 
   const onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setPicture({ ...picture, picture: event.target.files[0] });
-      setImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if (!file.type.includes('image')) {
+      toast.error('Only image can be selected');
+      return;
+    }
+    if (event.target.files && event.target.files[0] && event.target.name === 'eventImage') {
+      setPicture({ ...picture, eventImage: event.target.files[0] });
+      setEventImage(URL.createObjectURL(event.target.files[0]));
+    } else if (event.target.files && event.target.files[0] && event.target.name === 'codeImage') {
+      setPicture({ ...picture, codeImage: event.target.files[0] });
+      setCodeImage(URL.createObjectURL(event.target.files[0]));
     }
   };
 
@@ -27,19 +36,22 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
   ];
 
   const handleSubmit = (e) => {
+    if (eventimage === '' || codeimage === '') {
+      return toast.error('All fields  are required');
+    }
     e.preventDefault();
     const formdata = new FormData();
-    formdata.append('image', picture.picture);
+    formdata.append('eventImage', picture.eventImage);
+    formdata.append('codeImage', picture.codeImage);
     formdata.append('active', picture.active);
 
-    api('post', '/appPicture', formdata).then((res) => {
+    api('post', '/appPicture/', formdata).then((res) => {
       toast.success('Picture added successfully');
       getPictures();
       handleModal();
     });
   };
 
-  console.log('p', picture);
   const handleActiveChange = (e) => {
     setPicture(() => ({
       ...picture,
@@ -61,18 +73,44 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
                   <Row>
                     <Col lg="4" style={{ margin: 'auto' }}>
                       <FormGroup>
-                        <label className="form-control-label"> Picture</label>{' '}
+                        <label className="form-control-label">
+                          <span style={{ color: 'red' }}>{eventimage ? '' : '*'} </span>
+                          Event Picture
+                        </label>{' '}
                         <Input
                           className="form-control-alternative text-default"
                           type="file"
-                          accept="image/*"
+                          name="eventImage"
+                          accept="image/png, image/jpeg"
                           onChange={onImageChange}
                         />
                       </FormGroup>
                     </Col>
                     <Col lg="4" style={{ margin: 'auto' }}>
                       <FormGroup>
-                        <img src={image} alt="preview image" style={{ height: '100px', width: '50x' }} />
+                        <img src={eventimage} alt="preview image" style={{ height: '100px', width: '50x' }} />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="4" style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <label className="form-control-label">
+                          <span style={{ color: 'red' }}>{codeimage ? '' : '*'} </span>
+                          Code Picture
+                        </label>{' '}
+                        <Input
+                          className="form-control-alternative text-default"
+                          type="file"
+                          name="codeImage"
+                          accept="image/png, image/jpeg"
+                          onChange={onImageChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="4" style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <img src={codeimage} alt="preview image" style={{ height: '100px', width: '50x' }} />
                       </FormGroup>
                     </Col>
                   </Row>
