@@ -51,7 +51,8 @@ const Pictures = () => {
   const [count, setCount] = useState(0);
   const [openModal, setOpenModal] = useState(false);
   const [editModal, setEditModal] = useState(false);
-  const [image, setImage] = useState(null);
+  const [eventimage, seteventImage] = useState('');
+  const [codeimage, setcodeImage] = useState('');
   let [picture, setPicture] = useState({
     active: false,
   });
@@ -73,13 +74,16 @@ const Pictures = () => {
   };
 
   const handleEditModal = (item) => {
-    console.log(item, 'i');
+    console.log(item, 'item');
     if (item) {
       setPicture({
         _id: item?._id,
         active: item?.active,
+        codeImage: item?.codeImage,
+        eventImage: item?.eventImage,
       });
-      setImage(process.env.REACT_APP_SERVER_MEDIA_URL + item?.photo);
+      seteventImage(process.env.REACT_APP_SERVER_MEDIA_URL + item?.eventImage);
+      setcodeImage(process.env.REACT_APP_SERVER_MEDIA_URL + item?.codeImage);
     }
     setEditModal((open) => !open);
     return openModal;
@@ -100,17 +104,18 @@ const Pictures = () => {
             <Card className="shadow">
               <CardHeader className="border-0">
                 <div className="d-flex justify-content-between ">
-                  <h3 className="mb-0">Pictures</h3>
+                  <h3 className="mb-0">Event Background Pictures</h3>
                   <Button color="primary" href="#pablo" onClick={handleModal} size="md">
                     <i className="ni ni-fat-add"></i>
-                    Add new Picture
+                    Add new Pictures
                   </Button>
                 </div>
               </CardHeader>
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Picture</th>
+                    <th scope="col">Event Picture</th>
+                    <th scope="col">Code Picture</th>
                     <th scope="col">Active</th>
                     <th scope="col">Created At</th>
                     <th scope="col" />
@@ -122,7 +127,18 @@ const Pictures = () => {
                       <tr>
                         <td className="text-right">
                           <img
-                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.photo}
+                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.eventImage}
+                            alt="Not Found"
+                            style={{
+                              height: '70px',
+                              width: '70px',
+                              float: 'left',
+                            }}
+                          />
+                        </td>
+                        <td className="text-right">
+                          <img
+                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.codeImage}
                             alt="Not Found"
                             style={{
                               height: '70px',
@@ -202,8 +218,10 @@ const Pictures = () => {
             openModal={editModal}
             handleModal={handleEditModal}
             getPictures={getPictures}
-            image={image}
-            setImage={setImage}
+            codeimage={codeimage}
+            eventimage={eventimage}
+            setcodeImage={setcodeImage}
+            seteventImage={seteventImage}
             picture={picture}
             setPicture={setPicture}
           />

@@ -6,11 +6,25 @@ import { Modal, ModalBody, ModalHeader, ModalFooter, Button, FormGroup, Form, In
 import Select from 'react-select';
 const { Option } = Select;
 
-const EditPicture = ({ openModal, handleModal, picture, setImage, setPicture, getPictures, image }) => {
+const EditPicture = ({
+  openModal,
+  handleModal,
+  picture,
+  setcodeImage,
+  seteventImage,
+  setPicture,
+  getPictures,
+  codeimage,
+  eventimage,
+}) => {
   const handleSubmit = (e) => {
+    if (eventimage === '' || codeimage === '') {
+      return toast.error('All fields  are required');
+    }
     e.preventDefault();
     const formdata = new FormData();
-    formdata.append('image', picture.picture);
+    formdata.append('eventImage', picture.eventImage);
+    formdata.append('codeImage', picture.codeImage);
     formdata.append('active', picture.active);
     api('put', `/appPicture/${picture._id}`, formdata).then((res) => {
       toast.success('picture edited successfully');
@@ -20,12 +34,20 @@ const EditPicture = ({ openModal, handleModal, picture, setImage, setPicture, ge
   };
 
   const onImageChange = (event) => {
-    if (event.target.files && event.target.files[0]) {
-      setPicture({ ...picture, picture: event.target.files[0] });
-      setImage(URL.createObjectURL(event.target.files[0]));
+    const file = event.target.files[0];
+    if (!file.type.includes('image')) {
+      toast.error('Only image can be selected');
+      return;
+    }
+    if (event.target.files && event.target.files[0] && event.target.name === 'eventImage') {
+      setPicture({ ...picture, eventImage: event.target.files[0] });
+      seteventImage(URL.createObjectURL(event.target.files[0]));
+    } else if (event.target.files && event.target.files[0] && event.target.name === 'codeImage') {
+      setPicture({ ...picture, codeImage: event.target.files[0] });
+      setcodeImage(URL.createObjectURL(event.target.files[0]));
     }
   };
-  console.log(picture, 'p');
+
   const handleActiveChange = (e) => {
     setPicture(() => ({
       ...picture,
@@ -51,18 +73,44 @@ const EditPicture = ({ openModal, handleModal, picture, setImage, setPicture, ge
                   <Row>
                     <Col lg="4" style={{ margin: 'auto' }}>
                       <FormGroup>
-                        <label className="form-control-label"> Picture</label>{' '}
+                        <label className="form-control-label">
+                          <span style={{ color: 'red' }}>{eventimage ? '' : '*'} </span>
+                          Event Picture
+                        </label>{' '}
                         <Input
                           className="form-control-alternative text-default"
                           type="file"
-                          accept="image/*"
+                          name="eventImage"
+                          accept="image/png, image/jpeg"
                           onChange={onImageChange}
                         />
                       </FormGroup>
                     </Col>
                     <Col lg="4" style={{ margin: 'auto' }}>
                       <FormGroup>
-                        <img src={image} alt="preview image" style={{ height: '100px', width: '50x' }} />
+                        <img src={eventimage} alt="preview image" style={{ height: '100px', width: '50x' }} />
+                      </FormGroup>
+                    </Col>
+                  </Row>
+                  <Row>
+                    <Col lg="4" style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <label className="form-control-label">
+                          {' '}
+                          <span style={{ color: 'red' }}>{codeimage ? '' : '*'} </span>Code Picture
+                        </label>{' '}
+                        <Input
+                          className="form-control-alternative text-default"
+                          type="file"
+                          name="codeImage"
+                          accept="image/png, image/jpeg"
+                          onChange={onImageChange}
+                        />
+                      </FormGroup>
+                    </Col>
+                    <Col lg="4" style={{ margin: 'auto' }}>
+                      <FormGroup>
+                        <img src={codeimage} alt="preview image" style={{ height: '100px', width: '50x' }} />
                       </FormGroup>
                     </Col>
                   </Row>
@@ -76,6 +124,7 @@ const EditPicture = ({ openModal, handleModal, picture, setImage, setPicture, ge
                           className="form-control-alternative"
                           defaultValue={{
                             label: `${picture?.active}`,
+                            label: picture?.active === true ? 'Yes' : 'No',
                             value: picture?.active,
                           }}
                           options={options}

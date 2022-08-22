@@ -47,7 +47,7 @@ var routes = [
 
   {
     path: '/Apppictures',
-    name: 'Event Bg-Pictures',
+    name: 'Event BackGround Pictures',
     icon: 'ni ni-support-16 text-purple"',
     component: eventPictures,
     layout: '/admin',
