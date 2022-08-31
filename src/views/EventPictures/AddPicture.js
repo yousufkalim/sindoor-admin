@@ -63,7 +63,7 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
     <>
       <Modal isOpen={openModal} size="xl" centered>
         <ModalHeader charCode="X" toggle={handleModal}>
-          Add a Picture
+          Upcoming Event Background Pictures
         </ModalHeader>
         <ModalBody>
           <Row>
@@ -75,7 +75,7 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
                       <FormGroup>
                         <label className="form-control-label">
                           <span style={{ color: 'red' }}>{eventimage ? '' : '*'} </span>
-                          Event Picture
+                          Upload image 1
                         </label>{' '}
                         <Input
                           className="form-control-alternative text-default"
@@ -97,7 +97,7 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
                       <FormGroup>
                         <label className="form-control-label">
                           <span style={{ color: 'red' }}>{codeimage ? '' : '*'} </span>
-                          Code Picture
+                          Upload image 2
                         </label>{' '}
                         <Input
                           className="form-control-alternative text-default"
@@ -117,7 +117,7 @@ const AddPicture = ({ openModal, handleModal, getPictures }) => {
                   <Row>
                     <Col lg="4" style={{ margin: 'auto' }}>
                       <FormGroup>
-                        <label className="form-control-label">Active</label>
+                        <label className="form-control-label">Status</label>
                         <Select
                           onChange={handleActiveChange}
                           name="active"

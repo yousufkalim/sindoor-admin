@@ -114,9 +114,9 @@ const Pictures = () => {
               <Table className="align-items-center table-flush" responsive>
                 <thead className="thead-light">
                   <tr>
-                    <th scope="col">Event Picture</th>
-                    <th scope="col">Code Picture</th>
-                    <th scope="col">Active</th>
+                    <th scope="col">Image 1</th>
+                    <th scope="col">Image 2</th>
+                    <th scope="col">Status</th>
                     <th scope="col">Created At</th>
                     <th scope="col" />
                   </tr>
