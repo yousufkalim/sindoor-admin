@@ -18,6 +18,7 @@
 // reactstrap components
 import { useState, useEffect, useRef } from 'react';
 import { useHistory } from 'react-router-dom';
+import dummy from '../../assets/img/icons/common/dummy.svg';
 import api from 'api';
 import ReactPaginate from 'react-paginate';
 import { Store, UpdateStore } from 'StoreContext';
@@ -103,6 +104,9 @@ const Users = () => {
                 </thead>
                 <tbody>
                   {users?.map((item) => {
+                    {
+                      console.log('item', item);
+                    }
                     return (
                       <tr>
                         <th scope="row">
@@ -136,8 +140,7 @@ const Users = () => {
                         </td>
                         <td className="text-right">
                           <img
-                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.photo}
-                            alt="Not Found"
+                            src={item.photo ? process.env.REACT_APP_SERVER_MEDIA_URL + item.photo : dummy}
                             style={{
                               height: '70px',
                               width: '70px',
