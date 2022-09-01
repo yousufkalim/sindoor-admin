@@ -123,6 +123,7 @@ const Pictures = () => {
                 </thead>
                 <tbody>
                   {pictures?.map((item) => {
+                    console.log(item, 'i');
                     return (
                       <tr>
                         <td className="text-right">
