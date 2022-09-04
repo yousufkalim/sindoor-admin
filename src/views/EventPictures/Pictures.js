@@ -21,6 +21,8 @@ import { useHistory } from 'react-router-dom';
 import api from 'api';
 import ReactPaginate from 'react-paginate';
 import { Store, UpdateStore } from 'StoreContext';
+import { baseUrl, mediaUrl } from 'config';
+
 import {
   Badge,
   Card,
@@ -82,8 +84,8 @@ const Pictures = () => {
         codeImage: item?.codeImage,
         eventImage: item?.eventImage,
       });
-      seteventImage(process.env.REACT_APP_SERVER_MEDIA_URL + item?.eventImage);
-      setcodeImage(process.env.REACT_APP_SERVER_MEDIA_URL + item?.codeImage);
+      seteventImage(mediaUrl + item?.eventImage);
+      setcodeImage(mediaUrl + item?.codeImage);
     }
     setEditModal((open) => !open);
     return openModal;
@@ -128,7 +130,7 @@ const Pictures = () => {
                       <tr>
                         <td className="text-right">
                           <img
-                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.eventImage}
+                            src={mediaUrl + item.eventImage}
                             alt="Not Found"
                             style={{
                               height: '70px',
@@ -139,7 +141,7 @@ const Pictures = () => {
                         </td>
                         <td className="text-right">
                           <img
-                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.codeImage}
+                            src={mediaUrl + item.codeImage}
                             alt="Not Found"
                             style={{
                               height: '70px',

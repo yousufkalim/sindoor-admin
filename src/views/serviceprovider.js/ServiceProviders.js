@@ -40,6 +40,7 @@ import {
 
 import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
+import { mediaUrl } from 'config';
 
 const ServiceProviders = () => {
   const pagination = useRef();
@@ -131,7 +132,7 @@ const ServiceProviders = () => {
                         </td>
                         <td className="text-right">
                           <img
-                            src={process.env.REACT_APP_SERVER_MEDIA_URL + item.photo}
+                            src={mediaUrl + item.photo}
                             alt="Not Found"
                             style={{
                               height: '70px',

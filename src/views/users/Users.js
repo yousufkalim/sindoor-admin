@@ -42,6 +42,7 @@ import {
 
 import Header from 'components/Headers/Header.js';
 import { toast } from 'react-toastify';
+import { mediaUrl } from 'config';
 
 const Users = () => {
   const pagination = useRef();
@@ -140,7 +141,7 @@ const Users = () => {
                         </td>
                         <td className="text-right">
                           <img
-                            src={item.photo ? process.env.REACT_APP_SERVER_MEDIA_URL + item.photo : dummy}
+                            src={item.photo ? mediaUrl + item.photo : dummy}
                             style={{
                               height: '70px',
                               width: '70px',
